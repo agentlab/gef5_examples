@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <bundle id="com.google.inject" version="0.0.0"/>
+   <bundle id="com.google.inject.multibindings" version="0.0.0"/>
+   <bundle id="javax.inject" version="0.0.0"/>
+   <bundle id="javax.xml" version="0.0.0"/>
+   <bundle id="org.eclipse.osgi" version="0.0.0"/>
+   <bundle id="org.eclipse.equinox.common" version="0.0.0"/>
+   <bundle id="org.eclipse.equinox.preferences" version="0.0.0"/>
+   <bundle id="org.eclipse.equinox.registry" version="0.0.0"/>
+   <bundle id="org.eclipse.core.commands" version="0.0.0"/>
+   <bundle id="org.eclipse.core.contenttype" version="0.0.0"/>
+   <bundle id="org.eclipse.core.jobs" version="0.0.0"/>
+   <bundle id="org.eclipse.core.runtime" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.common" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.geometry" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.geometry.convert.fx" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.fx" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.mvc.fx" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.mvc.examples" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.mvc.examples.logo" version="0.0.0"/>
+   <bundle id="org.eclipse.gef.mvc.examples.logo.web" version="0.0.0"/>
+</site>

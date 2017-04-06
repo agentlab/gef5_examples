@@ -10,19 +10,19 @@
  *     Matthias Wienand (itemis AG) - initial API & implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
+import org.eclipse.gef.mvc.fx.handlers.AbstractHandler;
+import org.eclipse.gef.mvc.fx.handlers.IOnClickHandler;
 import org.eclipse.gef.mvc.fx.parts.IContentPart;
 import org.eclipse.gef.mvc.fx.parts.IRootPart;
 import org.eclipse.gef.mvc.fx.parts.IVisualPart;
-import org.eclipse.gef.mvc.fx.policies.AbstractInteractionPolicy;
 import org.eclipse.gef.mvc.fx.policies.DeletionPolicy;
-import org.eclipse.gef.mvc.fx.policies.IOnClickPolicy;
 
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
-public class FXDeleteFirstAnchorageOnClickPolicy extends AbstractInteractionPolicy implements IOnClickPolicy {
+public class DeleteFirstAnchorageOnClickHandler extends AbstractHandler implements IOnClickHandler {
 
 	@Override
 	public void click(MouseEvent e) {
@@ -48,5 +48,4 @@ public class FXDeleteFirstAnchorageOnClickPolicy extends AbstractInteractionPoli
 	protected IVisualPart<? extends Node> getTargetPart() {
 		return getHost().getAnchoragesUnmodifiable().keySet().iterator().next();
 	}
-
 }

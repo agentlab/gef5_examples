@@ -8,20 +8,20 @@
  * Contributors:
  *     Alexander Nyßen (itemis AG) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.gef.mvc.fx.handlers.TranslateSelectedOnDragHandler;
 import org.eclipse.gef.mvc.fx.models.SelectionModel;
 import org.eclipse.gef.mvc.fx.parts.IContentPart;
 import org.eclipse.gef.mvc.fx.parts.PartUtils;
-import org.eclipse.gef.mvc.fx.policies.TranslateSelectedOnDragPolicy;
 
 import javafx.scene.Node;
 
-public class FXRelocateLinkedOnDragPolicy extends TranslateSelectedOnDragPolicy {
+public class RelocateLinkedOnDragHandler extends TranslateSelectedOnDragHandler {
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -42,5 +42,4 @@ public class FXRelocateLinkedOnDragPolicy extends TranslateSelectedOnDragPolicy 
 
 		return linked;
 	}
-
 }

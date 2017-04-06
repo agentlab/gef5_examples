@@ -9,12 +9,14 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
-import org.eclipse.gef.mvc.fx.policies.AbstractPolicy;
+import org.eclipse.gef.common.adapt.IAdaptable;
+import org.eclipse.gef.mvc.fx.parts.IContentPart;
 
-public abstract class AbstractCloneContentPolicy extends AbstractPolicy {
+import javafx.scene.Node;
+
+public abstract class AbstractCloneContentSupport extends IAdaptable.Bound.Impl<IContentPart<? extends Node>> {
 
 	public abstract Object cloneContent();
-
 }

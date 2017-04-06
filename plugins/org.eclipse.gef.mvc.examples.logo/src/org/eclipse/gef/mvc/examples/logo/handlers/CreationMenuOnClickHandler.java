@@ -9,7 +9,7 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,13 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.common.adapt.AdapterKey;
 import org.eclipse.gef.geometry.planar.AffineTransform;
 import org.eclipse.gef.geometry.planar.Point;
+import org.eclipse.gef.mvc.fx.handlers.AbstractHandler;
+import org.eclipse.gef.mvc.fx.handlers.IOnClickHandler;
 import org.eclipse.gef.mvc.fx.operations.ReverseUndoCompositeOperation;
 import org.eclipse.gef.mvc.fx.parts.DefaultHoverFeedbackPartFactory;
 import org.eclipse.gef.mvc.fx.parts.IContentPart;
 import org.eclipse.gef.mvc.fx.parts.IRootPart;
-import org.eclipse.gef.mvc.fx.policies.AbstractInteractionPolicy;
 import org.eclipse.gef.mvc.fx.policies.CreationPolicy;
-import org.eclipse.gef.mvc.fx.policies.IOnClickPolicy;
 import org.eclipse.gef.mvc.fx.policies.TransformPolicy;
 import org.eclipse.gef.mvc.fx.viewer.InfiniteCanvasViewer;
 
@@ -57,18 +57,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 
 /**
- * The {@link CreationMenuOnClickPolicy} displays a context menu that can be
+ * The {@link CreationMenuOnClickHandler} displays a context menu that can be
  * used to create content.
  *
  * @author wienand
  *
  */
 // TODO: only applicable for LayeredRootPart and InfiniteCanvasViewer
-public class CreationMenuOnClickPolicy extends AbstractInteractionPolicy implements IOnClickPolicy {
+public class CreationMenuOnClickHandler extends AbstractHandler implements IOnClickHandler {
 
 	/**
 	 * An {@link ICreationMenuItem} can be displayed by an
-	 * {@link CreationMenuOnClickPolicy}.
+	 * {@link CreationMenuOnClickHandler}.
 	 *
 	 * @author wienand
 	 *

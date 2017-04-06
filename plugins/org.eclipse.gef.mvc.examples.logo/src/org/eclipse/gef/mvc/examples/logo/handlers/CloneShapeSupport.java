@@ -9,7 +9,7 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
 import org.eclipse.gef.geometry.planar.IShape;
 import org.eclipse.gef.mvc.examples.logo.model.GeometricShape;
@@ -19,11 +19,11 @@ import javafx.scene.effect.Effect;
 import javafx.scene.paint.Paint;
 
 // only applicable for GeometricShapePart
-public class CloneShapePolicy extends AbstractCloneContentPolicy {
+public class CloneShapeSupport extends AbstractCloneContentSupport {
 
 	@Override
 	public Object cloneContent() {
-		GeometricShape originalShape = getHost().getContent();
+		GeometricShape originalShape = getAdaptable().getContent();
 		GeometricShape shape = new GeometricShape((IShape) originalShape.getGeometry().getCopy(),
 				originalShape.getTransform().getCopy(), copyPaint(originalShape.getFill()),
 				copyEffect(originalShape.getEffect()));
@@ -43,7 +43,7 @@ public class CloneShapePolicy extends AbstractCloneContentPolicy {
 	}
 
 	@Override
-	public GeometricShapePart getHost() {
-		return (GeometricShapePart) super.getHost();
+	public GeometricShapePart getAdaptable() {
+		return (GeometricShapePart) super.getAdaptable();
 	}
 }

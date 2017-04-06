@@ -9,7 +9,7 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,14 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.fx.nodes.Connection;
 import org.eclipse.gef.geometry.convert.fx.FX2Geometry;
+import org.eclipse.gef.mvc.fx.handlers.AbstractHandler;
+import org.eclipse.gef.mvc.fx.handlers.IOnClickHandler;
 import org.eclipse.gef.mvc.fx.models.SelectionModel;
 import org.eclipse.gef.mvc.fx.operations.DeselectOperation;
 import org.eclipse.gef.mvc.fx.parts.IContentPart;
 import org.eclipse.gef.mvc.fx.parts.IRootPart;
 import org.eclipse.gef.mvc.fx.parts.ITransformableContentPart;
-import org.eclipse.gef.mvc.fx.policies.AbstractInteractionPolicy;
 import org.eclipse.gef.mvc.fx.policies.CreationPolicy;
-import org.eclipse.gef.mvc.fx.policies.IOnClickPolicy;
 import org.eclipse.gef.mvc.fx.policies.TransformPolicy;
 import org.eclipse.gef.mvc.fx.viewer.IViewer;
 
@@ -35,7 +35,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Affine;
 
-public class FXCloneOnClickPolicy extends AbstractInteractionPolicy implements IOnClickPolicy {
+public class CloneOnClickHandler extends AbstractHandler implements IOnClickHandler {
 
 	@Override
 	public void click(MouseEvent event) {
@@ -44,14 +44,13 @@ public class FXCloneOnClickPolicy extends AbstractInteractionPolicy implements I
 		}
 
 		// clone content
-		Object cloneContent = getHost().getAdapter(AbstractCloneContentPolicy.class).cloneContent();
+		Object cloneContent = getHost().getAdapter(AbstractCloneContentSupport.class).cloneContent();
 
 		// create the clone content part
 		IRootPart<? extends Node> root = getHost().getRoot();
 		CreationPolicy creationPolicy = root.getAdapter(CreationPolicy.class);
 		init(creationPolicy);
-		IContentPart<? extends Node> clonedContentPart = creationPolicy.create(cloneContent,
-				(IContentPart<? extends Node>) getHost().getParent(),
+		IContentPart<? extends Node> clonedContentPart = creationPolicy.create(cloneContent, getHost().getParent(),
 				HashMultimap.<IContentPart<? extends Node>, String> create());
 		commit(creationPolicy);
 
@@ -94,5 +93,4 @@ public class FXCloneOnClickPolicy extends AbstractInteractionPolicy implements I
 	protected boolean isCloneModifierDown(MouseEvent e) {
 		return e.isAltDown() || e.isShiftDown();
 	}
-
 }

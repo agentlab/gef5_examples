@@ -9,7 +9,7 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +24,15 @@ import org.eclipse.gef.mvc.examples.logo.MvcLogoExample;
 import org.eclipse.gef.mvc.examples.logo.model.GeometricCurve;
 import org.eclipse.gef.mvc.examples.logo.parts.GeometricCurvePart;
 import org.eclipse.gef.mvc.examples.logo.parts.GeometricShapePart;
+import org.eclipse.gef.mvc.fx.gestures.ClickDragGesture;
+import org.eclipse.gef.mvc.fx.handlers.AbstractHandler;
+import org.eclipse.gef.mvc.fx.handlers.IOnDragHandler;
 import org.eclipse.gef.mvc.fx.models.SelectionModel;
 import org.eclipse.gef.mvc.fx.operations.DeselectOperation;
 import org.eclipse.gef.mvc.fx.parts.CircleSegmentHandlePart;
 import org.eclipse.gef.mvc.fx.parts.IContentPart;
 import org.eclipse.gef.mvc.fx.parts.IVisualPart;
-import org.eclipse.gef.mvc.fx.policies.AbstractInteractionPolicy;
 import org.eclipse.gef.mvc.fx.policies.CreationPolicy;
-import org.eclipse.gef.mvc.fx.policies.IOnDragPolicy;
-import org.eclipse.gef.mvc.fx.tools.ClickDragTool;
 import org.eclipse.gef.mvc.fx.viewer.InfiniteCanvasViewer;
 
 import com.google.common.collect.HashMultimap;
@@ -44,10 +44,10 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy implements IOnDragPolicy {
+public class CreateCurveOnDragHandler extends AbstractHandler implements IOnDragHandler {
 
 	private CircleSegmentHandlePart bendTargetPart;
-	private Map<AdapterKey<? extends IOnDragPolicy>, IOnDragPolicy> dragPolicies;
+	private Map<AdapterKey<? extends IOnDragHandler>, IOnDragHandler> dragPolicies;
 	private GeometricCurvePart curvePart;
 
 	@Override
@@ -58,7 +58,7 @@ public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy impleme
 
 		// forward event to bend target part
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.abortDrag();
 			}
 		}
@@ -77,7 +77,7 @@ public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy impleme
 
 		// forward drag events to bend target part
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.drag(event, delta);
 			}
 		}
@@ -91,7 +91,7 @@ public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy impleme
 
 		// forward event to bend target part
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.endDrag(e, delta);
 			}
 		}
@@ -113,11 +113,17 @@ public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy impleme
 				}
 			}
 		}
-
 		throw new IllegalStateException("Cannot find bend target part.");
 	}
 
 	protected Point getLocation(MouseEvent e) {
+		// XXX: Viewer may be null if the host is removed in the same pass in
+		// which the event is forwarded.
+		if (getHost().getViewer() == null) {
+			return new Point(e.getSceneX(), e.getSceneY());
+		}
+		// FIXME: Prevent invocation of interaction policies when their host
+		// does not have a link to the viewer.
 		Point2D location = ((InfiniteCanvasViewer) getHost().getRoot().getViewer()).getCanvas().getContentGroup()
 				.sceneToLocal(e.getSceneX(), e.getSceneY());
 		return new Point(location.getX(), location.getY());
@@ -176,7 +182,7 @@ public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy impleme
 		// find bend target part
 		bendTargetPart = findBendTargetPart(curvePart, event.getTarget());
 		if (bendTargetPart != null) {
-			dragPolicies = bendTargetPart.getAdapters(ClickDragTool.ON_DRAG_POLICY_KEY);
+			dragPolicies = bendTargetPart.getAdapters(ClickDragGesture.ON_DRAG_POLICY_KEY);
 		}
 		if (dragPolicies != null) {
 			MouseEvent dragEvent = new MouseEvent(event.getSource(), event.getTarget(), MouseEvent.MOUSE_DRAGGED,
@@ -185,12 +191,11 @@ public class FXCreateCurveOnDragPolicy extends AbstractInteractionPolicy impleme
 					event.isMetaDown(), event.isPrimaryButtonDown(), event.isMiddleButtonDown(),
 					event.isSecondaryButtonDown(), event.isSynthesized(), event.isPopupTrigger(),
 					event.isStillSincePress(), event.getPickResult());
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.startDrag(event);
 				// XXX: send initial drag event so that the end position is set
 				dragPolicy.drag(dragEvent, new Dimension());
 			}
 		}
 	}
-
 }

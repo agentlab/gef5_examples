@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 itemis AG and others.
+ * Copyright (c) 2016, 2017 itemis AG and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *
  *******************************************************************************/
-package org.eclipse.gef.mvc.examples.logo.policies;
+package org.eclipse.gef.mvc.examples.logo.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +23,15 @@ import org.eclipse.gef.geometry.planar.Point;
 import org.eclipse.gef.mvc.examples.logo.model.GeometricShape;
 import org.eclipse.gef.mvc.examples.logo.parts.GeometricShapePart;
 import org.eclipse.gef.mvc.fx.domain.IDomain;
+import org.eclipse.gef.mvc.fx.gestures.ClickDragGesture;
+import org.eclipse.gef.mvc.fx.handlers.AbstractHandler;
+import org.eclipse.gef.mvc.fx.handlers.IOnDragHandler;
 import org.eclipse.gef.mvc.fx.models.SelectionModel;
 import org.eclipse.gef.mvc.fx.operations.DeselectOperation;
 import org.eclipse.gef.mvc.fx.parts.IContentPart;
 import org.eclipse.gef.mvc.fx.parts.IRootPart;
 import org.eclipse.gef.mvc.fx.parts.LayeredRootPart;
-import org.eclipse.gef.mvc.fx.policies.AbstractInteractionPolicy;
 import org.eclipse.gef.mvc.fx.policies.CreationPolicy;
-import org.eclipse.gef.mvc.fx.policies.IOnDragPolicy;
-import org.eclipse.gef.mvc.fx.tools.ClickDragTool;
 import org.eclipse.gef.mvc.fx.viewer.IViewer;
 import org.eclipse.gef.mvc.fx.viewer.InfiniteCanvasViewer;
 
@@ -42,10 +42,10 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class CreateAndTranslateShapeOnDragPolicy extends AbstractInteractionPolicy implements IOnDragPolicy {
+public class CreateAndTranslateShapeOnDragHandler extends AbstractHandler implements IOnDragHandler {
 
 	private GeometricShapePart createdShapePart;
-	private Map<AdapterKey<? extends IOnDragPolicy>, IOnDragPolicy> dragPolicies;
+	private Map<AdapterKey<? extends IOnDragHandler>, IOnDragHandler> dragPolicies;
 
 	@Override
 	public void abortDrag() {
@@ -55,7 +55,7 @@ public class CreateAndTranslateShapeOnDragPolicy extends AbstractInteractionPoli
 
 		// forward event to bend target part
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.abortDrag();
 			}
 		}
@@ -72,7 +72,7 @@ public class CreateAndTranslateShapeOnDragPolicy extends AbstractInteractionPoli
 
 		// forward drag events to bend target part
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.drag(event, delta);
 			}
 		}
@@ -86,7 +86,7 @@ public class CreateAndTranslateShapeOnDragPolicy extends AbstractInteractionPoli
 
 		// forward event to bend target part
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.endDrag(e, delta);
 			}
 		}
@@ -166,9 +166,9 @@ public class CreateAndTranslateShapeOnDragPolicy extends AbstractInteractionPoli
 		}
 
 		// find drag target part
-		dragPolicies = createdShapePart.getAdapters(ClickDragTool.ON_DRAG_POLICY_KEY);
+		dragPolicies = createdShapePart.getAdapters(ClickDragGesture.ON_DRAG_POLICY_KEY);
 		if (dragPolicies != null) {
-			for (IOnDragPolicy dragPolicy : dragPolicies.values()) {
+			for (IOnDragHandler dragPolicy : dragPolicies.values()) {
 				dragPolicy.startDrag(event);
 			}
 		}

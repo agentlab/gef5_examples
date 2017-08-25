@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 itemis AG and others.
+ * Copyright (c) 2016, 2017 itemis AG and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.gef.geometry.planar.BezierCurve;
-import org.eclipse.gef.mvc.fx.parts.DefaultHoverHandlePartFactory;
+import org.eclipse.gef.mvc.fx.parts.DefaultHoverIntentHandlePartFactory;
 import org.eclipse.gef.mvc.fx.parts.IHandlePart;
 import org.eclipse.gef.mvc.fx.parts.IVisualPart;
 
@@ -26,7 +26,7 @@ import com.google.inject.Provider;
 
 import javafx.scene.Node;
 
-public class MvcLogoExampleHoverHandlePartFactory extends DefaultHoverHandlePartFactory {
+public class MvcLogoExampleHoverHandlePartFactory extends DefaultHoverIntentHandlePartFactory {
 
 	@Inject
 	private Injector injector;
@@ -60,5 +60,4 @@ public class MvcLogoExampleHoverHandlePartFactory extends DefaultHoverHandlePart
 			Provider<BezierCurve[]> segmentsProvider) {
 		return createHoverHandlePartsForPolygonalOutline(target, contextMap, segmentsProvider);
 	}
-
 }

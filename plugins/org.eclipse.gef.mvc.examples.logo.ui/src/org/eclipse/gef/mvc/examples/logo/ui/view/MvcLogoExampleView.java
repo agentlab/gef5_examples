@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 itemis AG and others.
+ * Copyright (c) 2014, 2017 itemis AG and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -141,15 +141,17 @@ public class MvcLogoExampleView extends AbstractFXView {
 
 		// dispose actions
 		if (zoomActionGroup != null) {
+			getContentViewer().unsetAdapter(zoomActionGroup);
 			zoomActionGroup.dispose();
 			zoomActionGroup = null;
 		}
 		if (scrollActionGroup != null) {
+			getContentViewer().unsetAdapter(scrollActionGroup);
 			scrollActionGroup.dispose();
 			scrollActionGroup = null;
 		}
 		if (fitToViewportLockAction != null) {
-			fitToViewportLockAction.dispose();
+			getContentViewer().unsetAdapter(fitToViewportLockAction);
 			fitToViewportLockAction = null;
 		}
 
@@ -159,13 +161,17 @@ public class MvcLogoExampleView extends AbstractFXView {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
+		
 		// create actions
 		zoomActionGroup = new ZoomActionGroup(new FitToViewportAction());
-		zoomActionGroup.init(getContentViewer());
+		getContentViewer().setAdapter(zoomActionGroup);
+		
 		fitToViewportLockAction = new FitToViewportLockAction();
-		fitToViewportLockAction.init(getContentViewer());
+		getContentViewer().setAdapter(fitToViewportLockAction);
+		
 		scrollActionGroup = new ScrollActionGroup();
-		scrollActionGroup.init(getContentViewer());
+		getContentViewer().setAdapter(scrollActionGroup);
+		
 		// contribute to toolbar
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager mgr = actionBars.getToolBarManager();

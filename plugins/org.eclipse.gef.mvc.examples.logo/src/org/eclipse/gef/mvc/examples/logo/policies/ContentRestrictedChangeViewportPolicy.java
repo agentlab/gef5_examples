@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 itemis AG and others.
+ * Copyright (c) 2016, 2017 itemis AG and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,7 @@ import javafx.geometry.Bounds;
 public class ContentRestrictedChangeViewportPolicy extends ViewportPolicy {
 
 	@Override
-	protected void doLocallyExecuteOperation() {
+	protected void locallyExecuteOperation() {
 		// determine current translation
 		double tx = getChangeViewportOperation().getNewHorizontalScrollOffset();
 		double ty = getChangeViewportOperation().getNewVerticalScrollOffset();
